@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# Nasa API key
+/src/NasaKey.js
+
 # testing
 /coverage
 
