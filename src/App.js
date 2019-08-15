@@ -4,6 +4,8 @@ import "./App.sass";
 import "./components/NasaCard";
 import NasaPhoto from "./components/NasaPhoto";
 
+import Fetch from "./components/Fetch";
+
 function App() {
   // console.log(Data())
   return (

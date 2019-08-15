@@ -4,7 +4,7 @@ import axios from "axios";
 import "../App.css";
 import "./NasaCard.css";
 
-function randomDate() {
+function randomDate(url) {
   // let date = "&date=2012-03-20";
   let date = `&date=`;
   var randomDay = String(Math.floor(Math.random() * 30 + 1));
@@ -14,21 +14,36 @@ function randomDate() {
   if (randomMonth.length === 1) randomMonth = `0${randomMonth}`;
   if (randomYear.length === 1) randomYear = `0${randomYear}`;
 
-  return `${date}20${randomYear}-${randomMonth}-${randomDay}`;
+  console.log(
+    "random image",
+    `${url}${date}20${randomYear}-${randomMonth}-${randomDay}`
+  );
+  return `${url}${date}20${randomYear}-${randomMonth}-${randomDay}`;
+}
+
+function changeImage() {
+  var url = `https://api.nasa.gov/planetary/apod?api_key=${nasaKey}`;
+  console.log(randomDate(url));
+  return randomDate(url);
 }
 
 function NasaPhoto(params) {
   const [images, setImage] = useState([]);
-  // console.log(nasaKey);
+  const [date, setDate] = useState(randomDate());
+
+  let url = `https://api.nasa.gov/planetary/apod?api_key=${nasaKey}${date}`;
 
   useEffect(() => {
     axios
       .get(
-        `https://api.nasa.gov/planetary/apod?api_key=${nasaKey}${randomDate()}`
+        changeImage()
+        // `${url}`
+        // `https://api.nasa.gov/planetary/apod?api_key=${nasaKey}${randomDate()}`
       )
       .then(response => {
         const image = response.data;
         console.log("Nasa images;", image);
+
         setImage(image);
       })
       .catch(err => console.log(err));
@@ -38,14 +53,18 @@ function NasaPhoto(params) {
     <div className="container">
       <div className="nasa-photo">
         <img src={images.url} alt={images.title} />
-        <p>{images.copyright || "No copyright for this image"}</p>
+
+        <p>{images.copyright || ""}</p>
         <h2>{images.title}</h2>
-        <button className="button is-primary">
-          Click to get a random image
+        <button
+          onClick={() => window.open(images.hdurl)}
+          className="button is-primary"
+        >
+          Click to see full size image
         </button>
       </div>
       <p>{images.explanation}</p>
-      <h2>{`Image was taken on: ${images.date}`}</h2>
+      <h2>{`Image was taken on: ${images.date || ""}`}</h2>
     </div>
   );
 }
