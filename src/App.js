@@ -1,13 +1,16 @@
 import React from "react";
 import "./App.css";
+import "./App.sass";
+import "./components/NasaCard";
+import NasaPhoto from "./components/NasaPhoto";
+
+import Fetch from "./components/Fetch";
 
 function App() {
+  // console.log(Data())
   return (
     <div className="App">
-      <p>
-        Read through the instructions in the README.md file to build your NASA
-        app! Have fun 🚀!
-      </p>
+      <NasaPhoto />
     </div>
   );
 }
